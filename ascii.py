@@ -1,5 +1,6 @@
 from PIL import Image
 import numpy as np
+import os
 
 def render(arr):
     for y in range(len(arr)):
@@ -7,9 +8,13 @@ def render(arr):
 
 convertstr = '`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$'
 
-img = Image.open('flower.png')
+inputimg = [i for i in os.listdir('InputImage/') if '.' in i][0]
+img = Image.open('InputImage/' + inputimg)
 img = img.convert('L')
-img = img.resize((200,200))
+dims = img.size
+factor = 200.0/img.size[1]
+new_dims = tuple([int(i*factor) for i in dims])
+img = img.resize(new_dims)
 imgarr = np.array(img)
 asciiarr = np.zeros(imgarr.shape, dtype=str)
 
